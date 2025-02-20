@@ -1,5 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
-export default defineConfig({});
+import aws from "astro-sst";
+   export default defineConfig({
+     output: "server",
+     adapter: aws()
+});

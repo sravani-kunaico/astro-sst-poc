@@ -45,3 +45,34 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Steps to Integrate SST and deploy to AWS S3 with Cloudfront
+
+Pre-Requisites:
+---------------
+- Node installed
+- Astro project created
+- AWS credentials configured
+
+Steps:
+------
+1. Once Astro project is created, cd into current project
+2.  Now initialize SST in your application
+    - npx sst@latest init
+3. Once SST is initialized, it will create new file sst.config.ts, sst-env.d.ts, modify tsconfig.json, add sst to package.json.
+4. The sst.config.ts file is the main configuration file for SST, which is a framework for deploying serverless applications on AWS. It defines infrastructure and deployment settings.
+5. It will also ask to update astro.config.mjs. This file is the configuration file for Astro, a static site generator. It defines how Astro behaves, including build options, integrations, base URLs, and more.
+                
+                
+                import aws from "astro-sst"; //This is an SST adapter that allows deploying Astro to AWS
+                export default defineConfig({
+                    output: "server", //Enables Server-Side Rendering (SSR) instead of Static Site Generation (SSG).
+                    adapter: aws() //Uses the SST AWS adapter (astro-sst) to deploy the site to AWS.
+                }); 
+                
+6. After making these changes, we are good to go.
+7. To start in dev mode
+    - npx sst dev // run your AWS application locally while simulating a live AWS environment with hot reloading.
+8. To deploy to AWS
+    - npx sst deploy // Fully deploys the app to AWS 
+9. Once its deployed successfully, it will generate cloudfront URL where you can access your application.
