@@ -48,6 +48,8 @@ Feel free to check [our documentation](https://docs.astro.build) or jump into ou
 
 ## Steps to Integrate SST and deploy to AWS S3 with Cloudfront
 
+SST is a framework that makes it easy to build modern full-stack applications on your own infrastructure.
+
 Pre-Requisites:
 ---------------
 - Node installed
@@ -58,7 +60,8 @@ Steps:
 ------
 1. Once Astro project is created, cd into current project
 2.  Now initialize SST in your application
-    - npx sst@latest init
+        
+        npx sst@latest init
 3. Once SST is initialized, it will create new file sst.config.ts, sst-env.d.ts, modify tsconfig.json, add sst to package.json.
 4. The sst.config.ts file is the main configuration file for SST, which is a framework for deploying serverless applications on AWS. It defines infrastructure and deployment settings.
 5. It will also ask to update astro.config.mjs. This file is the configuration file for Astro, a static site generator. It defines how Astro behaves, including build options, integrations, base URLs, and more.
@@ -72,7 +75,26 @@ Steps:
                 
 6. After making these changes, we are good to go.
 7. To start in dev mode
-    - npx sst dev // run your AWS application locally while simulating a live AWS environment with hot reloading.
+        
+        npx sst dev // run your AWS application locally while simulating a live AWS environment with hot reloading.
 8. To deploy to AWS
-    - npx sst deploy // Fully deploys the app to AWS 
+        
+        npx sst deploy // Fully deploys the app to AWS 
 9. Once its deployed successfully, it will generate cloudfront URL where you can access your application.
+
+Notes:
+-----
+1. sst.aws.Astro is the component specialized for Astro framework to deploy an Astro Site. This automatically integrates with AWS S3 and CloudFront. 
+2. If we want to add any other components, we can add them to sst.config.ts file. For ex., If we want to create a bucket to upload some files. We can add it to sst.config.ts as below:
+        
+        const bucket = new sst.aws.Bucket("AstroSSTPOCTestBucket"); //This will create a bucket in S3
+3. We can link this bucket as part of our Astro app and use it inside the application to upload the files to S3.
+    
+        new sst.aws.Astro("AstroSSTPOC", {
+            link: [bucket]
+        });
+4. Similarly, we can create any infrastructure as code without the need to create them manually via AWS console or UI.
+
+## 👀 Want to learn more about SST?
+
+Feel free to check [SST Documentation](https://sst.dev/docs)
